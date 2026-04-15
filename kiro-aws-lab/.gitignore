@@ -1,0 +1,15 @@
+# AWS Credentials - NEVER commit these
+*.pem
+*.key
+.env
+.env.*
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+
+# Kiro settings with potential secrets
+.kiro/settings/
