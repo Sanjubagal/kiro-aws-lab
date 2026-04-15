@@ -1,21 +1,3 @@
-# AWS Credentials - NEVER commit these
-*.pem
-*.key
-.env
-.env.*
-*credentials*
-
-# Terraform
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfstate.backup
-.terraform.lock.hcl
-*.tfvars
-
-# Kiro settings with potential secrets
-.kiro/settings/
-
 # macOS
 .DS_Store
 *.swp
