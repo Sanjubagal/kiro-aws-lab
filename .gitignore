@@ -5,3 +5,6 @@
 
 # Generated reports (local only)
 aws-reports/
+
+# Terraform providers (too large for GitHub, regenerate with terraform init)
+.terraform/
