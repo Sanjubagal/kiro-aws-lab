@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "cloudwatch": {
+      "command": "/opt/homebrew/bin/uvx",
+      "args": ["awslabs.aws-mcp-server-cli@latest", "--service", "cloudwatch"],
+      "env": {
+        "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+        "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+        "AWS_REGION": "ap-south-1"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "costexplorer": {
+      "command": "/opt/homebrew/bin/uvx",
+      "args": ["awslabs.aws-mcp-server-cli@latest", "--service", "costexplorer"],
+      "env": {
+        "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+        "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+        "AWS_REGION": "ap-south-1"
+      },
+      "disabled": false,
+      "autoApprove": []
+    },
+    "ec2": {
+      "command": "/opt/homebrew/bin/uvx",
+      "args": ["awslabs.aws-mcp-server-cli@latest", "--service", "ec2"],
+      "env": {
+        "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+        "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+        "AWS_REGION": "ap-south-1"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "DevOpsReviewer",
+  "role": "AWS DevOps Review Assistant",
+  "tools": ["cloudwatch", "ec2", "costexplorer"],
+  "instructions": "Combine infra health and cost data. Provide optimization recommendations."
+}

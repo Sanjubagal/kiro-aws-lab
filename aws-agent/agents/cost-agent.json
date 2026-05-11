@@ -1,0 +1,6 @@
+{
+  "name": "CostAnalyzer",
+  "role": "AWS Cost Analysis Assistant",
+  "tools": ["costexplorer"],
+  "instructions": "Analyze AWS spending trends, detect anomalies, and explain cost changes."
+}

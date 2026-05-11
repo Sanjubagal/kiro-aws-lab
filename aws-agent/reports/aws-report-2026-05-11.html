@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Daily Report — 2026-05-11</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117; --card: #1a1d27; --border: #2d3148;
+    --text: #e2e8f0; --muted: #718096; --accent: #667eea;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: var(--bg); color: var(--text); padding: 24px; font-size: 14px; }
+  h1 { font-size: 22px; font-weight: 700; }
+  h2 { font-size: 16px; font-weight: 600; margin-bottom: 14px; color: #a0aec0; text-transform: uppercase; letter-spacing: .05em; }
+  h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .header { display:flex; justify-content:space-between; align-items:center;
+             border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 24px; }
+  .header-meta { font-size:12px; color:var(--muted); text-align:right; }
+  .overall { display:inline-block; padding:6px 16px; border-radius:20px; font-weight:700;
+              font-size:13px; color:#fff; background:#dd6b20; margin-top:6px; }
+  .grid { display:grid; gap:16px; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; }
+  .stat-card { text-align:center; }
+  .stat-num { font-size:32px; font-weight:800; line-height:1; margin:8px 0 4px; }
+  .stat-label { font-size:12px; color:var(--muted); }
+  .badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px;
+            font-weight:600; color:#fff; }
+  .badge.ok { background:#276749; }
+  .badge.alarm { background:#9b2c2c; }
+  .badge.warn { background:#7b341e; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; padding:8px 10px; color:var(--muted); font-weight:500;
+        border-bottom:1px solid var(--border); font-size:11px; text-transform:uppercase; }
+  td { padding:8px 10px; border-bottom:1px solid #1e2235; vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:#1e2235; }
+  .bar-wrap { display:flex; align-items:center; gap:8px; }
+  .bar { height:8px; border-radius:4px; min-width:2px; transition:width .3s; }
+  .bar-label { font-size:12px; color:var(--muted); white-space:nowrap; }
+  .na { color:var(--muted); font-style:italic; }
+  .section { margin-bottom:24px; }
+  .saving-card { border-left:3px solid; padding:12px 16px; margin-bottom:10px;
+                  background:#161925; border-radius:0 8px 8px 0; }
+  .saving-card.high   { border-color:#e53e3e; }
+  .saving-card.medium { border-color:#dd6b20; }
+  .saving-card.low    { border-color:#d69e2e; }
+  .saving-card.info   { border-color:#3182ce; }
+  .saving-title { font-weight:600; margin-bottom:4px; }
+  .saving-detail { color:#a0aec0; font-size:13px; line-height:1.5; }
+  .saving-est { margin-top:6px; font-size:12px; color:#68d391; font-weight:500; }
+  .rec-card { border-left:3px solid; padding:12px 16px; margin-bottom:10px;
+               background:#161925; border-radius:0 8px 8px 0; }
+  .rec-card.high   { border-color:#e53e3e; }
+  .rec-card.medium { border-color:#dd6b20; }
+  .rec-card.info   { border-color:#3182ce; }
+  .chart-wrap { position:relative; height:220px; }
+  .tag { display:inline-block; padding:1px 6px; border-radius:3px; font-size:11px;
+          background:#2d3748; color:#a0aec0; margin-right:4px; }
+  .footer { margin-top:32px; padding-top:16px; border-top:1px solid var(--border);
+             font-size:12px; color:var(--muted); display:flex; justify-content:space-between; }
+  @media(max-width:900px) { .grid-4,.grid-3,.grid-2 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>🤖 AWS Daily Environment Report</h1>
+    <div style="color:var(--muted);margin-top:4px">Account: 814466573226 &nbsp;|&nbsp; Region: ap-south-1 &nbsp;|&nbsp; Lab: freetier-lab-1c95748f</div>
+    <div class="overall">WARNING</div>
+  </div>
+  <div class="header-meta">
+    Generated: 2026-05-11 16:33 UTC<br>
+    Agents: InfraMonitor · CostAnalyzer · DevOpsReviewer<br>
+    Run time: 10.4s
+  </div>
+</div>
+
+<!-- ── Summary KPIs ── -->
+<div class="section">
+  <div class="grid grid-4">
+    <div class="card stat-card">
+      <div class="stat-label">EC2 Instances</div>
+      <div class="stat-num" style="color:#48bb78">2/2</div>
+      <div class="stat-label">running</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-label">CW Alarms</div>
+      <div class="stat-num" style="color:#48bb78">5 OK</div>
+      <div class="stat-label">0 alarm · 1 insufficient</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-label">Last Month Spend</div>
+      <div class="stat-num" style="color:#667eea">$-0.0000</div>
+      <div class="stat-label">This month: $0.0000</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-label">Cost Savings Found</div>
+      <div class="stat-num" style="color:#68d391">8</div>
+      <div class="stat-label">recommendations</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── AGENT 1: InfraMonitor ── -->
+<div class="section">
+  <div class="card">
+    <h2>🖥️ Agent 1 — InfraMonitor: Infrastructure Health</h2>
+
+    <h3 style="margin-bottom:10px">EC2 Instances</h3>
+    <table>
+      <thead><tr><th>Name</th><th>State</th><th>Type</th><th>AZ</th><th>Public IP</th><th>Sys Check</th><th>CPU (24h)</th><th>Network In/Out</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>freetier-lab-1c95748f-app-server</strong><br><span class="tag">i-0e470a958427b3621</span></td>
+          <td><span class="badge ok">running</span></td>
+          <td>t3.micro</td>
+          <td>ap-south-1b</td>
+          <td>3.111.57.240</td>
+          <td><span class="badge ok">ok</span></td>
+          <td><div class="bar-wrap"><div class="bar" style="width:0.1%;background:#48bb78"></div><span class="bar-label">0.1%</span></div></td>
+          <td>134.7 KB / 94.8 KB</td>
+        </tr>
+        <tr>
+          <td><strong>freetier-lab-1c95748f-web-server</strong><br><span class="tag">i-0c13a2652dfb32401</span></td>
+          <td><span class="badge ok">running</span></td>
+          <td>t3.micro</td>
+          <td>ap-south-1a</td>
+          <td>3.109.195.69</td>
+          <td><span class="badge ok">ok</span></td>
+          <td><div class="bar-wrap"><div class="bar" style="width:0.09%;background:#48bb78"></div><span class="bar-label">0.09%</span></div></td>
+          <td>157.1 KB / 113.7 KB</td>
+        </tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">RDS Database</h3>
+    <table>
+      <thead><tr><th>Identifier</th><th>Status</th><th>Class</th><th>Engine</th><th>Storage</th><th>CPU</th><th>Connections</th><th>Free Storage</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>freetier-lab-1c95748f-mysql</strong></td>
+          <td><span class="badge ok">available</span></td>
+          <td>db.t3.micro</td>
+          <td>mysql 8.0.45</td>
+          <td>20 GB allocated</td>
+          <td><div class="bar-wrap"><div class="bar" style="width:3.74%;background:#48bb78"></div><span class="bar-label">3.74%</span></div></td>
+          <td>N/A</td>
+          <td>18.43 GB free</td>
+        </tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">CloudWatch Alarms</h3>
+    <table>
+      <thead><tr><th>Alarm</th><th>State</th><th>Metric</th><th>Reason</th><th>Last Updated</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>✅ freetier-lab-1c95748f-dlq-messages</td>
+          <td><span class="badge warn">OK</span></td>
+          <td><span class="tag">AWS/SQS / ApproximateNumberOfMessagesVisible</span></td>
+          <td style="color:var(--muted);font-size:12px">Threshold Crossed: 1 datapoint [0.0 (11/05/26 14:30:00)] was not greater than the threshold (0.0).</td>
+          <td style="color:var(--muted);font-size:12px">2026-05-11 20:06 UTC</td>
+        </tr>
+        <tr>
+          <td>⚠️ freetier-lab-1c95748f-lambda-errors</td>
+          <td><span class="badge warn">INSUFFICIENT_DATA</span></td>
+          <td><span class="tag">AWS/Lambda / Errors</span></td>
+          <td style="color:var(--muted);font-size:12px">Unchecked: Initial alarm creation</td>
+          <td style="color:var(--muted);font-size:12px">2026-05-11 20:02 UTC</td>
+        </tr>
+        <tr>
+          <td>✅ freetier-lab-1c95748f-rds-cpu-high</td>
+          <td><span class="badge warn">OK</span></td>
+          <td><span class="tag">AWS/RDS / CPUUtilization</span></td>
+          <td style="color:var(--muted);font-size:12px">Threshold Crossed: 1 datapoint [19.862980353103865 (11/05/26 14:41:00)] was not greater than the thr</td>
+          <td style="color:var(--muted);font-size:12px">2026-05-11 20:17 UTC</td>
+        </tr>
+        <tr>
+          <td>✅ freetier-lab-1c95748f-rds-storage-low</td>
+          <td><span class="badge warn">OK</span></td>
+          <td><span class="tag">AWS/RDS / FreeStorageSpace</span></td>
+          <td style="color:var(--muted);font-size:12px">Threshold Crossed: 1 datapoint [1.88857524224E10 (11/05/26 14:43:00)] was not less than the threshol</td>
+          <td style="color:var(--muted);font-size:12px">2026-05-11 20:18 UTC</td>
+        </tr>
+        <tr>
+          <td>✅ freetier-lab-1c95748f-web-cpu-high</td>
+          <td><span class="badge warn">OK</span></td>
+          <td><span class="tag">AWS/EC2 / CPUUtilization</span></td>
+          <td style="color:var(--muted);font-size:12px">Threshold Crossed: 1 datapoint [0.0048865814262107 (11/05/26 14:48:00)] was not greater than the thr</td>
+          <td style="color:var(--muted);font-size:12px">2026-05-11 20:23 UTC</td>
+        </tr>
+        <tr>
+          <td>✅ freetier-lab-1c95748f-web-status-check</td>
+          <td><span class="badge warn">OK</span></td>
+          <td><span class="tag">AWS/EC2 / StatusCheckFailed</span></td>
+          <td style="color:var(--muted);font-size:12px">Threshold Crossed: 1 datapoint [0.0 (11/05/26 14:57:00)] was not greater than the threshold (0.0).</td>
+          <td style="color:var(--muted);font-size:12px">2026-05-11 20:29 UTC</td>
+        </tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">Lambda Functions (last 24h)</h3>
+    <table>
+      <thead><tr><th>Function</th><th>Invocations</th><th>Errors</th><th>Throttles</th><th>Avg Duration</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>freetier-lab-1c95748f-processor</td>
+          <td>0</td>
+          <td style="color:#48bb78;font-weight:600">0</td>
+          <td>0</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>freetier-lab-1c95748f-s3-processor</td>
+          <td>0</td>
+          <td style="color:#48bb78;font-weight:600">0</td>
+          <td>0</td>
+          <td>N/A</td>
+        </tr>
+        <tr>
+          <td>freetier-lab-1c95748f-scheduler</td>
+          <td>1.0</td>
+          <td style="color:#48bb78;font-weight:600">0</td>
+          <td>0</td>
+          <td>464.36 ms</td>
+        </tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">Log Errors (last 24h)</h3>
+    <table>
+      <thead><tr><th>Log Group</th><th>Error Count</th><th>Sample Messages</th></tr></thead>
+      <tbody><tr><td>/kiro-lab/app</td><td>✅ 0</td><td><span class="na">—</span></td></tr><tr><td>/kiro-lab/web</td><td>✅ 0</td><td><span class="na">—</span></td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── AGENT 2: CostAnalyzer ── -->
+<div class="section">
+  <div class="card">
+    <h2>💰 Agent 2 — CostAnalyzer: Cost Analysis &amp; Anomalies</h2>
+
+    <div class="grid grid-2" style="margin-bottom:20px">
+      <div>
+        <h3 style="margin-bottom:10px">Daily Spend Trend (Last Month)</h3>
+        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:10px">Cost by Service (Last Month)</h3>
+        <div class="chart-wrap"><canvas id="svcChart"></canvas></div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:10px">Cost by Service — Last Month</h3>
+    <table>
+      <thead><tr><th>Service</th><th>Cost</th><th>Share</th></tr></thead>
+      <tbody><tr><td>EC2 - Other</td><td>$0.0000</td><td><div class="bar-wrap"><div class="bar" style="width:0%;background:#667eea"></div><span class="bar-label">0.0%</span></div></td></tr><tr><td>Amazon Simple Storage Service</td><td>$0.0000</td><td><div class="bar-wrap"><div class="bar" style="width:0%;background:#667eea"></div><span class="bar-label">0.0%</span></div></td></tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">Month-over-Month Comparison</h3>
+    <table>
+      <thead><tr><th>Service</th><th>Prev Month</th><th>Last Month</th><th>Change</th></tr></thead>
+      <tbody><tr>
+          <td>Amazon Simple Storage Service</td>
+          <td>$0.0000</td>
+          <td>$0.0000</td>
+          <td style="color:#667eea;font-weight:600">new</td>
+        </tr><tr>
+          <td>EC2 - Other</td>
+          <td>$0.0000</td>
+          <td>$0.0000</td>
+          <td style="color:#667eea;font-weight:600">new</td>
+        </tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">Cost Anomalies</h3>
+    <table>
+      <thead><tr><th>Period</th><th>Service</th><th>Region</th><th>Impact</th><th>Score</th></tr></thead>
+      <tbody><tr><td colspan="5">✅ No anomalies detected</td></tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">💡 Cost Saving Recommendations</h3>
+    
+        <div class="saving-card medium">
+          <div class="saving-title"><span class="badge" style="background:#dd6b20">MEDIUM</span> &nbsp;EC2 Rightsizing — web-server</div>
+          <div class="saving-detail"><strong>Finding:</strong> Average CPU 0.09% over 7 days — instance is over-provisioned</div>
+          <div class="saving-detail"><strong>Action:</strong> Consider switching to t3.nano or t4g.nano (~50% cheaper). Or use a Savings Plan / Reserved Instance for predictable workloads.</div>
+          <div class="saving-est">💰 Estimated saving: ~$3–5/mo per instance</div>
+        </div>
+        <div class="saving-card medium">
+          <div class="saving-title"><span class="badge" style="background:#dd6b20">MEDIUM</span> &nbsp;EC2 Rightsizing — app-server</div>
+          <div class="saving-detail"><strong>Finding:</strong> Average CPU 0.1% over 7 days — instance is over-provisioned</div>
+          <div class="saving-detail"><strong>Action:</strong> Consider switching to t3.nano or t4g.nano (~50% cheaper). Or use a Savings Plan / Reserved Instance for predictable workloads.</div>
+          <div class="saving-est">💰 Estimated saving: ~$3–5/mo per instance</div>
+        </div>
+        <div class="saving-card low">
+          <div class="saving-title"><span class="badge" style="background:#d69e2e">LOW</span> &nbsp;Lambda Idle — freetier-lab-1c95748f-processor</div>
+          <div class="saving-detail"><strong>Finding:</strong> Zero invocations in the last 7 days</div>
+          <div class="saving-detail"><strong>Action:</strong> Review if this function is still needed. Lambda itself is free-tier but attached resources (logs, X-Ray) accrue cost.</div>
+          <div class="saving-est">💰 Estimated saving: Minimal — but reduces clutter and log storage costs</div>
+        </div>
+        <div class="saving-card low">
+          <div class="saving-title"><span class="badge" style="background:#d69e2e">LOW</span> &nbsp;Lambda Idle — freetier-lab-1c95748f-s3-processor</div>
+          <div class="saving-detail"><strong>Finding:</strong> Zero invocations in the last 7 days</div>
+          <div class="saving-detail"><strong>Action:</strong> Review if this function is still needed. Lambda itself is free-tier but attached resources (logs, X-Ray) accrue cost.</div>
+          <div class="saving-est">💰 Estimated saving: Minimal — but reduces clutter and log storage costs</div>
+        </div>
+        <div class="saving-card high">
+          <div class="saving-title"><span class="badge" style="background:#e53e3e">HIGH</span> &nbsp;RDS Optimization — freetier-lab-1c95748f-mysql</div>
+          <div class="saving-detail"><strong>Finding:</strong> Average DB connections: 0 over 7 days — RDS is mostly idle</div>
+          <div class="saving-detail"><strong>Action:</strong> For dev/lab workloads consider: (1) Stop the RDS instance when not in use (saves ~$0.017/hr), (2) Migrate to Aurora Serverless v2 which scales to 0, (3) Use DynamoDB instead for simple key-value access patterns.</div>
+          <div class="saving-est">💰 Estimated saving: ~$12–15/mo if stopped nights/weekends</div>
+        </div>
+        <div class="saving-card low">
+          <div class="saving-title"><span class="badge" style="background:#d69e2e">LOW</span> &nbsp;S3 Lifecycle — freetier-lab-1c95748f-logs</div>
+          <div class="saving-detail"><strong>Finding:</strong> Log bucket has no lifecycle policy — logs accumulate indefinitely</div>
+          <div class="saving-detail"><strong>Action:</strong> Add S3 lifecycle rule: transition to S3-IA after 30 days, Glacier after 90 days, delete after 365 days.</div>
+          <div class="saving-est">💰 Estimated saving: Prevents unbounded storage growth; saves ~60–70% on log storage long-term</div>
+        </div>
+        <div class="saving-card low">
+          <div class="saving-title"><span class="badge" style="background:#d69e2e">LOW</span> &nbsp;CloudWatch Logs — All log groups</div>
+          <div class="saving-detail"><strong>Finding:</strong> Log groups set to 7-day retention — good, but verify no groups are set to 'Never expire'</div>
+          <div class="saving-detail"><strong>Action:</strong> Run: aws logs describe-log-groups --query 'logGroups[?retentionInDays==`null`].logGroupName' to find unbounded groups.</div>
+          <div class="saving-est">💰 Estimated saving: Avoids $0.03/GB/mo for logs beyond free tier (5GB)</div>
+        </div>
+        <div class="saving-card info">
+          <div class="saving-title"><span class="badge" style="background:#3182ce">INFO</span> &nbsp;Elastic IP — freetier-lab-1c95748f-web-eip</div>
+          <div class="saving-detail"><strong>Finding:</strong> EIP is attached and free. If the EC2 instance is stopped, the EIP will incur charges.</div>
+          <div class="saving-detail"><strong>Action:</strong> Always stop EC2 and release EIP together, or use a script to release on stop.</div>
+          <div class="saving-est">💰 Estimated saving: $0.005/hr (~$3.60/mo) if accidentally left unattached</div>
+        </div>
+  </div>
+</div>
+
+<!-- ── AGENT 3: DevOpsReviewer ── -->
+<div class="section">
+  <div class="card">
+    <h2>🔧 Agent 3 — DevOpsReviewer: Operations &amp; Security</h2>
+
+    <h3 style="margin-bottom:10px">Security Groups</h3>
+    <table>
+      <thead><tr><th>Name</th><th>ID</th><th>Open Rules (0.0.0.0/0)</th></tr></thead>
+      <tbody><tr>
+          <td>freetier-lab-1c95748f-lambda-sg</td>
+          <td><span class="tag">sg-079bcb3fae94c2bc8</span></td>
+          <td style="color:#48bb78;font-size:12px">—</td>
+        </tr><tr>
+          <td>freetier-lab-1c95748f-rds-sg</td>
+          <td><span class="tag">sg-0facb5f5eefdbba73</span></td>
+          <td style="color:#48bb78;font-size:12px">—</td>
+        </tr><tr>
+          <td>freetier-lab-1c95748f-app-sg</td>
+          <td><span class="tag">sg-0fa29bddf4fd04422</span></td>
+          <td style="color:#48bb78;font-size:12px">—</td>
+        </tr><tr>
+          <td>freetier-lab-1c95748f-web-sg</td>
+          <td><span class="tag">sg-0f7ef9bae9c48e874</span></td>
+          <td style="color:#e53e3e;font-size:12px">0.0.0.0/0 → tcp:80, 0.0.0.0/0 → tcp:443</td>
+        </tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">SQS Queue Depths</h3>
+    <table>
+      <thead><tr><th>Queue</th><th>Visible Messages</th><th>In-Flight</th></tr></thead>
+      <tbody><tr><td>freetier-lab-1c95748f-processor</td><td colspan="2" style="color:#e53e3e">An error occurred (InvalidAttributeName) when calling the GetQueueAttributes operation: Unknown Attribute NumberOfMessagesSent.</td></tr><tr><td>freetier-lab-1c95748f-processor-dlq</td><td colspan="2" style="color:#e53e3e">An error occurred (InvalidAttributeName) when calling the GetQueueAttributes operation: Unknown Attribute NumberOfMessagesSent.</td></tr><tr><td>freetier-lab-1c95748f-s3-events</td><td colspan="2" style="color:#e53e3e">An error occurred (InvalidAttributeName) when calling the GetQueueAttributes operation: Unknown Attribute NumberOfMessagesSent.</td></tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">DynamoDB Tables</h3>
+    <table>
+      <thead><tr><th>Table</th><th>Status</th><th>Items</th><th>Size</th><th>Capacity</th></tr></thead>
+      <tbody><tr>
+              <td>freetier-lab-1c95748f-users</td>
+              <td><span class="badge ok">ACTIVE</span></td>
+              <td>0</td>
+              <td>0.0 KB</td>
+              <td>5 RCU / 5 WCU</td>
+            </tr><tr>
+              <td>freetier-lab-1c95748f-events</td>
+              <td><span class="badge ok">ACTIVE</span></td>
+              <td>0</td>
+              <td>0.0 KB</td>
+              <td>5 RCU / 5 WCU</td>
+            </tr><tr>
+              <td>freetier-lab-1c95748f-config</td>
+              <td><span class="badge ok">ACTIVE</span></td>
+              <td>0</td>
+              <td>0.0 KB</td>
+              <td>5 RCU / 5 WCU</td>
+            </tr></tbody>
+    </table>
+
+    <h3 style="margin:20px 0 10px">🔍 DevOps Recommendations</h3>
+    
+        <div class="rec-card info">
+          <div class="saving-title"><span class="badge" style="background:#3182ce">INFO</span> <span class="tag">reliability</span> &nbsp;Enable RDS automated backups verification</div>
+          <div class="saving-detail">Confirm RDS automated backups are enabled and retention is set to ≥7 days for point-in-time recovery.</div>
+        </div>
+        <div class="rec-card info">
+          <div class="saving-title"><span class="badge" style="background:#3182ce">INFO</span> <span class="tag">security</span> &nbsp;Rotate IAM credentials</div>
+          <div class="saving-detail">Ensure the terraform IAM user access keys are rotated every 90 days. Consider switching to IAM roles with short-lived credentials.</div>
+        </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const darkGrid = { color: 'rgba(255,255,255,0.06)' };
+  const tickColor = '#718096';
+
+  // Daily trend chart
+  const tCtx = document.getElementById('trendChart');
+  if (tCtx) {
+    new Chart(tCtx, {
+      type: 'line',
+      data: {
+        labels: ["2026-04-01", "2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10", "2026-04-11", "2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-25", "2026-04-26", "2026-04-27", "2026-04-28", "2026-04-29", "2026-04-30"],
+        datasets: [
+          {
+            label: 'Daily Spend ($)',
+            data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.0, -0.0, 0.0, -0.0, 0.0, -0.0, 0.0, 0.0, 0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            borderColor: '#667eea',
+            backgroundColor: 'rgba(102,126,234,0.15)',
+            fill: true, tension: 0.3, pointRadius: 3,
+          },
+          {
+            label: '2σ Threshold',
+            data: Array(["2026-04-01", "2026-04-02", "2026-04-03", "2026-04-04", "2026-04-05", "2026-04-06", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10", "2026-04-11", "2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-25", "2026-04-26", "2026-04-27", "2026-04-28", "2026-04-29", "2026-04-30"].length).fill(0.0),
+            borderColor: '#e53e3e', borderDash: [5,5],
+            pointRadius: 0, fill: false,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: tickColor } } },
+        scales: {
+          x: { ticks: { color: tickColor, maxTicksLimit: 10 }, grid: darkGrid },
+          y: { ticks: { color: tickColor }, grid: darkGrid }
+        }
+      }
+    });
+  }
+
+  // Service cost chart
+  const sCtx = document.getElementById('svcChart');
+  if (sCtx) {
+    new Chart(sCtx, {
+      type: 'bar',
+      data: {
+        labels: ["EC2 - Other", "Amazon Simple Storage Servic"],
+        datasets: [{
+          label: 'Cost ($)',
+          data: [0.0, 0.0],
+          backgroundColor: ['#667eea','#764ba2','#f093fb','#4facfe','#43e97b',
+                            '#fa709a','#fee140','#30cfd0'],
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: tickColor }, grid: darkGrid },
+          y: { ticks: { color: tickColor }, grid: darkGrid }
+        }
+      }
+    });
+  }
+})();
+</script>
+
+<div class="footer">
+  <span>🤖 Kiro AWS Daily Report &nbsp;|&nbsp; freetier-lab-1c95748f &nbsp;|&nbsp; ap-south-1</span>
+  <span>Generated 2026-05-11 16:33 UTC &nbsp;|&nbsp; Run time: 10.4s</span>
+</div>
+</body>
+</html>
